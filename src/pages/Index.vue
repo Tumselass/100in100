@@ -105,6 +105,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .rep-count {
   font-weight: bold;
+  font-size: 2rem;
 }
 
 .rep-count--complete {
