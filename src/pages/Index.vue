@@ -5,7 +5,7 @@
     {{ visableBlockDate }}
 
     <span
-      :class="{ 'rep-count--complete': todaysRepsComplete }"
+      :class="{ 'rep-count--complete': visableRepsComplete }"
       class="rep-count"
       >{{ chain[visableBlockIndex]?.reps }}</span
     >
@@ -80,8 +80,8 @@ export default defineComponent({
       );
     });
 
-    const todaysRepsComplete = computed(() => {
-      return chain.value[todaysBlockIndex.value]?.reps >= 100;
+    const visableRepsComplete = computed(() => {
+      return chain.value[visableBlockIndex.value]?.reps >= 100;
     });
 
     function addReps(amount: number) {
@@ -92,10 +92,9 @@ export default defineComponent({
       chain,
       todaysBlockIndex,
       visableBlockDate,
-      todaysRepsComplete,
+      visableRepsComplete,
       visableBlockIndex,
       goToBlockIndex,
-
       createNewChain,
       addReps,
     };
