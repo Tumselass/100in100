@@ -62,6 +62,7 @@
         <q-btn
           :class="{ invisable: visableBlockDate === 'Today' }"
           flat
+          no-caps
           @click="goToBlockIndex(todaysBlockIndex)"
         >
           <div class="text-center">
