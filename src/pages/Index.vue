@@ -22,9 +22,31 @@
       >
         {{ chain[visableBlockIndex]?.reps }} / {{ repsPerBlock }}
       </span>
+      <div class="emotion-and-date">
+        <span class="emotion-and-date__emoji">
+          {{ chain[visableBlockIndex]?.emotion }}
+        </span>
+        <span class="emotion-and-date__date">
+          {{ visableBlockDate }}
+        </span>
+      </div>
 
-      {{ visableBlockDate }}
-      <div class="text-center">
+      <div v-if="emotionInputActive" class="text-center">
+        <p>How do you feel?</p>
+        <div class="row q-gutter-md">
+          <q-btn
+            v-for="emotion in emotions"
+            :key="emotion"
+            unelevated
+            color="grey-10"
+            @click="addEmotion(emotion)"
+          >
+            {{ emotion }}
+          </q-btn>
+        </div>
+      </div>
+
+      <div v-else class="text-center">
         <p>Add some reps</p>
         <div class="row q-gutter-md">
           <q-btn
@@ -105,9 +127,12 @@ import { LocalStorage } from 'quasar';
 interface Chain {
   day: number;
   reps: number;
+  emotion?: string;
+  comment?: string;
 }
 
 const repsBtns = [10, 20, 30, 40];
+const emotions = ['💩', '🤡', '😎', '🦄'];
 
 export default defineComponent({
   name: 'PageIndex',
@@ -142,6 +167,17 @@ export default defineComponent({
     });
 
     const visableBlockIndex = ref(todaysBlockIndex.value);
+
+    const emotionInputActive = ref(false);
+    watchEffect(() => {
+      if (
+        chain.value[visableBlockIndex.value].reps >= repsPerBlock.value &&
+        !chain.value[visableBlockIndex.value].emotion
+      ) {
+        console.log('emotion');
+        emotionInputActive.value = true;
+      }
+    });
 
     function goToBlockIndex(index: number) {
       if (index < 0 || index === chainLength.value) return;
@@ -182,8 +218,14 @@ export default defineComponent({
       chain.value[visableBlockIndex.value].reps -= amount;
     }
 
+    function addEmotion(emotion: string) {
+      chain.value[visableBlockIndex.value].emotion = emotion;
+      emotionInputActive.value = false;
+    }
+
     return {
       repsBtns,
+      emotions,
       chain,
       chainLength,
       repsPerBlock,
@@ -193,10 +235,12 @@ export default defineComponent({
       visableBlockIndex,
       chainProgress,
       totalChainReps,
+      emotionInputActive,
       goToBlockIndex,
       createNewChain,
       addReps,
       delReps,
+      addEmotion,
       isToday,
     };
   },
@@ -219,5 +263,18 @@ export default defineComponent({
 
 .invisable {
   opacity: 0;
+}
+
+.emotion-and-date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.emotion-and-date__emoji {
+  font-size: 1.5rem;
+}
+.emotion-and-date__date {
+  font-weight: bold;
 }
 </style>
