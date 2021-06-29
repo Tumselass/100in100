@@ -14,7 +14,7 @@
     </q-btn>
 
     <template v-else>
-      <p>You have completed</p>
+      <p class="text-h6 q-mb-none">You have completed</p>
 
       <span
         :class="{ 'rep-count--complete': visableRepsComplete }"
@@ -27,24 +27,27 @@
       <div class="text-center">
         <p>Add some reps</p>
         <div class="row q-gutter-md">
-          <q-btn unelevated color="grey-10" @click="addReps(10)">
-            10
+          <q-btn
+            v-for="reps in repsBtns"
+            :key="reps"
+            unelevated
+            color="grey-10"
+            @click="addReps(reps)"
+          >
+            {{ reps }}
             <q-menu touch-position context-menu>
               <q-list dense style="min-width: 100px">
-                <q-item clickable v-close-popup @click="delReps(10)">
+                <q-item clickable v-close-popup @click="delReps(reps)">
                   <q-item-section>Subtract</q-item-section>
                 </q-item>
               </q-list>
             </q-menu>
           </q-btn>
-          <q-btn unelevated color="grey-10" @click="addReps(20)">20</q-btn>
-          <q-btn unelevated color="grey-10" @click="addReps(30)">30</q-btn>
-          <q-btn unelevated color="grey-10" @click="addReps(40)">40</q-btn>
         </div>
       </div>
 
       <div style="width: 50%" class="text-center">
-        <!-- <div>{{ chainProgress }} / {{ totalChainReps }}</div> -->
+        <p>Overall progress</p>
         <q-linear-progress
           stripe
           rounded
@@ -53,7 +56,7 @@
           color="positive"
           class="q-mb-sm"
         />
-        <p>Overall progress</p>
+        <div>{{ chainProgress }} / {{ totalChainReps }}</div>
       </div>
 
       <div style="margin-top: auto" class="full-width row justify-between">
@@ -103,6 +106,8 @@ interface Chain {
   day: number;
   reps: number;
 }
+
+const repsBtns = [10, 20, 30, 40];
 
 export default defineComponent({
   name: 'PageIndex',
@@ -178,6 +183,7 @@ export default defineComponent({
     }
 
     return {
+      repsBtns,
       chain,
       chainLength,
       repsPerBlock,
