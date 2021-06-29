@@ -1,8 +1,9 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
-        <q-toolbar-title> 100in100 </q-toolbar-title>
+    <q-header>
+      <q-toolbar class="text-grey-9 bg-white">
+        <q-toolbar-title><span class="logo">100</span></q-toolbar-title>
+        <q-btn flat round dense icon="more_vert" />
       </q-toolbar>
     </q-header>
 
@@ -13,9 +14,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'MainLayout',
 });
 </script>
+
+<style lang="scss" scoped>
+.logo {
+  font-weight: bold;
+}
+</style>
