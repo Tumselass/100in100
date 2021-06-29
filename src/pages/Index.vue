@@ -27,7 +27,16 @@
       <div class="text-center">
         <p>Add some reps</p>
         <div class="row q-gutter-md">
-          <q-btn unelevated color="grey-10" @click="addReps(10)">10</q-btn>
+          <q-btn unelevated color="grey-10" @click="addReps(10)">
+            10
+            <q-menu touch-position context-menu>
+              <q-list dense style="min-width: 100px">
+                <q-item clickable v-close-popup @click="delReps(10)">
+                  <q-item-section>Subtract</q-item-section>
+                </q-item>
+              </q-list>
+            </q-menu>
+          </q-btn>
           <q-btn unelevated color="grey-10" @click="addReps(20)">20</q-btn>
           <q-btn unelevated color="grey-10" @click="addReps(30)">30</q-btn>
           <q-btn unelevated color="grey-10" @click="addReps(40)">40</q-btn>
@@ -164,6 +173,10 @@ export default defineComponent({
       chain.value[visableBlockIndex.value].reps += amount;
     }
 
+    function delReps(amount: number) {
+      chain.value[visableBlockIndex.value].reps -= amount;
+    }
+
     return {
       chain,
       chainLength,
@@ -177,6 +190,7 @@ export default defineComponent({
       goToBlockIndex,
       createNewChain,
       addReps,
+      delReps,
       isToday,
     };
   },
